@@ -1,7 +1,20 @@
 <template name="comments">
+
+  {{#if currentUser}}
 	<input type="text" class="js-user-comment">
 	<br>
 	<button class="js-submit-comment btn btn-lg btn-info">
 		Submit Comment
 	</button>
+  {{else}}
+	<h2>You must log in to make comments!</h2>
+  {{/if}}
+
+	<hr>
+	<ul>
+	{{#each comment in commentsdata}}
+	  <li> {{comment.createdAt}}: {{ comment.text}} : {{comment.userEmail}}</li>
+	{{/each}}
+
+    </ul>
 </template>
