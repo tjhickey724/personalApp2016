@@ -3,6 +3,14 @@
   {{#if currentUser}}
 	<input type="text" class="js-user-comment">
 	<br>
+	<select class="js-rating-comment">
+		<option>1</option>
+		<option>2</option>
+		<option>3</option>
+		<option>4</option>
+		<option>5</option>
+	</select>
+	<br>
 	<button class="js-submit-comment btn btn-lg btn-info">
 		Submit Comment
 	</button>
@@ -12,9 +20,16 @@
 
 	<hr>
 	<ul>
-	{{#each comment in commentsdata}}
-	  <li> {{comment.createdAt}}: {{ comment.text}} : {{comment.userEmail}}</li>
+	{{#each c in commentsdata}}
+	   {{> commentRow  comment=c}}
 	{{/each}}
 
     </ul>
+</template>
+
+<template name="commentRow">
+	 <li> [{{comment.rating}}] {{comment.createdAt}}: {{ comment.text}} : {{comment.userEmail}}
+       <span class="js-delete-comment glyphicon glyphicon-remove" aria-hidden="true">
+       </span>
+	  </li>
 </template>
