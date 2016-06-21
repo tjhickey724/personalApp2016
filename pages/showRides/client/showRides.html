@@ -16,7 +16,13 @@
 	<button class="js-addRide">Offer this ride</button>
 	<ul>
 		{{#each r in rides}}
-		<li>{{r.offeredBy}} is offering a ride to {{r.to}}</li>
+		<li>{{r.offeredBy}} is offering
+			  <a href="/showride/{{r._id}}">a ride</a>
+				to {{r.to}}</li>
 		{{/each}}
 	</ul>
+</template>
+
+<template name="showRide">
+	{{offeredBy}}  offering ride to {{to}}
 </template>

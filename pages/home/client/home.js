@@ -12,7 +12,8 @@ Template.home.onCreated(function() {
 Template.home.helpers({
   theColor: function(){
     const instance = Template.instance();
-    return instance.state.get("color");
+    const c = instance.state.get("color");
+    return c;
   },
 
   theCounter: function(){
@@ -20,4 +21,18 @@ Template.home.helpers({
     return instance.state.get("counter");
   },
 
-})
+});
+
+Template.home.events({
+  "change .js-color": function(event,instance){
+    const c = instance.$(".js-color").val();
+    instance.state.set("color",c);
+    // change the color field of the state object ...
+  },
+
+  "click .js-pusher": function(event,instance){
+    const c = instance.state.get("counter");
+    instance.state.set("counter",c+1);
+  }
+
+});

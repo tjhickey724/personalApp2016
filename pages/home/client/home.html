@@ -1,5 +1,5 @@
 <template name="home">
-
+<div class="{{theColor}}">
   <h1>Brandeis CarPooling App</h1>
   Welcome... please register and log in!
   {{#if currentUser}}
@@ -8,7 +8,12 @@
      You better log in!!!
   {{/if}}
   <br>
-  Color: {{theColor}}<br>
+  <select class="js-color">
+    <option>bg-info</option>
+    <option>bg-warning</option>
+  </select>
+
   Counter: {{theCounter}}<br>
   <button class="js-pusher">Push me</button>
+</div>
 </template>
