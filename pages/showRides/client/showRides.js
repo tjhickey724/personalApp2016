@@ -20,7 +20,8 @@ Template.showRides.events({
 		const ride =
 		{offeredBy:name, to:dest, times:[am,pm],days:[1,3,4]};
 		console.dir(ride);
-		Rides.insert(ride);
-		
+		//Rides.insert(ride);
+		Meteor.call("insertRide",ride);
+
 	}
 })

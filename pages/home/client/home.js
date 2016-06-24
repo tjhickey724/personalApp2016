@@ -33,6 +33,19 @@ Template.home.events({
   "click .js-pusher": function(event,instance){
     const c = instance.state.get("counter");
     instance.state.set("counter",c+1);
-  }
+  },
+
+  "click .js-recipe": function(event,instance){
+    Meteor.call("test1",function(e,r){console.log(r)});
+
+    Meteor.apply("getRecipe",["onions","omelet"],{returnStubValue: true},
+      function(error,result){
+        console.dir(error);
+        r = JSON.parse(result);
+        console.dir(r);
+      });
+  },
+
+
 
 });
