@@ -1,7 +1,15 @@
 <template name="home">
 <div class="{{theColor}}">
   <button class="js-recipe">Get Recipe!</button>
-  
+
+  <ul>
+    {{#each r in recipes}}
+    <li><a href="{{r.href}}">{{r.title}}</a>
+      <img src="{{r.thumbnail}}" width="100">
+      {{r.ingredients}}
+    </li>
+    {{/each}}
+  </ul>
   <h1>Brandeis CarPooling App</h1>
   Welcome... please register and log in!
   {{#if currentUser}}

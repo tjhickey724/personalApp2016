@@ -3,6 +3,7 @@ Template.home.onCreated(function() {
   this.state.setDefault({
     color: "bg-info",
     counter: 0,
+    recipes:[],
 
   });
   console.log("creating the template");
@@ -19,6 +20,11 @@ Template.home.helpers({
   theCounter: function(){
     const instance = Template.instance();
     return instance.state.get("counter");
+  },
+
+  recipes: function(){
+    const instance = Template.instance();
+    return instance.state.get("recipes");
   },
 
 });
@@ -43,6 +49,7 @@ Template.home.events({
         console.dir(error);
         r = JSON.parse(result);
         console.dir(r);
+        return instance.state.set("recipes",r.results);
       });
   },
 
