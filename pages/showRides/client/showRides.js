@@ -23,5 +23,14 @@ Template.showRides.events({
 		//Rides.insert(ride);
 		Meteor.call("insertRide",ride);
 
+	},
+
+	"click .js-desired": function(event){
+		console.log(event);
+		event.preventDefault();
+		console.log("entered data");
+		const v = $(".js-desired").val();
+		console.log(v)
+		Meteor.subscribe("theRidesTo",v);
 	}
 })
