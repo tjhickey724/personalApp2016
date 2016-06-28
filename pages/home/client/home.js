@@ -43,8 +43,9 @@ Template.home.events({
 
   "click .js-recipe": function(event,instance){
     Meteor.call("test1",function(e,r){console.log(r)});
-
-    Meteor.apply("getRecipe",["onions","omelet"],{returnStubValue: true},
+    const ingr = $(".js-ingr").val();
+    const dish = $(".js-dish").val();
+    Meteor.apply("getRecipe",[ingr,dish],{returnStubValue: true},
       function(error,result){
         console.dir(error);
         r = JSON.parse(result);
