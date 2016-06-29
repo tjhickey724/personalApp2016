@@ -23,7 +23,7 @@ Template.showRides.events({
 		//Rides.insert(ride);
 		Meteor.call("insertRide",ride);
 
-	},
+	}, // comments here
 
 	"click .js-desired": function(event){
 		console.log(event);
