@@ -1,0 +1,10 @@
+<template name="showRidesTo">
+  <h1>Rides to {{who}}'s destination</h1>
+  <ul>
+  {{#each r in rides}}
+    <li>
+   {{r.offeredBy}} is offering a ride to {{r.to}}
+ </li>
+  {{/each}}
+</ul>
+</template>
