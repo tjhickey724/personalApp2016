@@ -4,6 +4,13 @@
 
   ingredient to use: <input type="text" class="js-ingr"><br>
   dish to make: <input type="text" class="js-dish"><br><br>
+  your zipcode: <input type="text" class="js-zip"><br><br>
+  {{#if zipinfo}}
+  {{zipinfo.zip_code}} is in
+  {{zipinfo.city}}, {{zipinfo.state}}<br>
+  lat={{zipinfo.lat}}  lng={{zipinfo.lng}}
+  {{/if}}
+  <br><br>
   <button class="js-recipe">Get Recipe!</button><br>
   <ul>
     {{#each r in recipes}}

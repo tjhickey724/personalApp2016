@@ -4,6 +4,7 @@ Template.apidemo.onCreated(function() {
     color: "bg-info",
     counter: 0,
     recipes:[],
+    r:{},
 
   });
   console.log("creating the template");
@@ -27,6 +28,11 @@ Template.apidemo.helpers({
     return instance.state.get("recipes");
   },
 
+  zipinfo: function(){
+    const instance = Template.instance();
+    return instance.state.get("zipinfo");
+  }
+
 });
 
 Template.apidemo.events({
@@ -45,6 +51,8 @@ Template.apidemo.events({
     Meteor.call("test1",function(e,r){console.log(r)});
     const ingr = $(".js-ingr").val();
     const dish = $(".js-dish").val();
+    const zipcode = $(".js-zip").val();
+
     Meteor.apply("getRecipe",[ingr,dish],{returnStubValue: true},
       function(error,result){
 
@@ -53,6 +61,14 @@ Template.apidemo.events({
         console.dir(r);
         return instance.state.set("recipes",r.results);
       });
+
+    Meteor.apply("getZipInfo",[zipcode],{returnStubValue:true},
+      function(error,result){
+        console.dir(['er',error,result]);
+        const r = JSON.parse(result);
+        console.dir(['zipcode',r]);
+        return instance.state.set("zipinfo",r);
+      })
   },
 
 
