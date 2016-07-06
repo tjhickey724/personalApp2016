@@ -1,4 +1,4 @@
-Template.home.onCreated(function() {
+Template.apidemo.onCreated(function() {
   this.state = new ReactiveDict();
   this.state.setDefault({
     color: "bg-info",
@@ -10,7 +10,7 @@ Template.home.onCreated(function() {
   console.dir(this.state);
 });
 
-Template.home.helpers({
+Template.apidemo.helpers({
   theColor: function(){
     const instance = Template.instance();
     const c = instance.state.get("color");
@@ -22,9 +22,14 @@ Template.home.helpers({
     return instance.state.get("counter");
   },
 
+  recipes: function(){
+    const instance = Template.instance();
+    return instance.state.get("recipes");
+  },
+
 });
 
-Template.home.events({
+Template.apidemo.events({
   "change .js-color": function(event,instance){
     const c = instance.$(".js-color").val();
     instance.state.set("color",c);
@@ -36,6 +41,18 @@ Template.home.events({
     instance.state.set("counter",c+1);
   },
 
+  "click .js-recipe": function(event,instance){
+    Meteor.call("test1",function(e,r){console.log(r)});
+    const ingr = $(".js-ingr").val();
+    const dish = $(".js-dish").val();
+    Meteor.apply("getRecipe",[ingr,dish],{returnStubValue: true},
+      function(error,result){
+        console.dir(error);
+        r = JSON.parse(result);
+        console.dir(r);
+        return instance.state.set("recipes",r.results);
+      });
+  },
 
 
 

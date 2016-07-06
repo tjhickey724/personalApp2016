@@ -1,0 +1,19 @@
+<template name="apidemo">
+<div class="{{theColor}}">
+  <h1>API Demo</h1>
+
+  ingredient to use: <input type="text" class="js-ingr"><br>
+  dish to make: <input type="text" class="js-dish"><br><br>
+  <button class="js-recipe">Get Recipe!</button><br>
+  <ul>
+    {{#each r in recipes}}
+    <li>
+
+      <a href="{{r.href}}"><img src="{{r.thumbnail}}" width="100"></a>
+      <b>{{r.title}}:</b> {{r.ingredients}} <hr>
+    </li>
+    {{/each}}
+  </ul>
+
+</div>
+</template>
