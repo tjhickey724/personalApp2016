@@ -4,6 +4,9 @@
     https://webaudiodemos.appspot.com/AudioRecorder/
   and converts it to use in a meteor app...
 
+  This runs on firefox but to test on Chrome you need to use/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome  --user-data-dir=/tmp/foo --unsafely-treat-insecure-origin-as-secure=http://localhost:3000
+
+
   the next thing I need to do is to write something
   that processes the utterance, finds the beginning and ending
   of the utterance, takes the middle third, and then
@@ -13,18 +16,25 @@
   2 channel microphone with the accelerometer as one channel
   and work on modifying this example to show both graphs
 */
+
+
+
 Template.audio2.helpers({
   recording: function(){
     const status = Recording.findOne();
-    console.log("status="); console.dir(status);
-    if (status)
-      return status.recording;
-    else return "empty"
+    console.log("status='"+status.recording+"'"); console.dir(status);
+    if (status.recording == true){
+      toggleRecording(recordButton);
+    }
+    return status;
   }
 })
 
+let recordButton=null;
+
 Template.audio2.onRendered(function(){
   initAudio();
+  recordButton = document.getElementById("record")
 })
 
 Template.audio2.events({
@@ -47,8 +57,13 @@ function extract(data,h){
   }
   const end = pos;
   let len = data.length-20000;
-  console.log("rms = "+rms(data));
-  console.log("vowel rms = "+rms(data.slice(10000+len/3,10000+2*len/3)))
+  const allRMS = rms(data);
+  const vowelRMS =  rms(data.slice(10000+len/3,10000+2*len/3));
+  const status = Recording.findOne();
+  Recording.update(status._id,
+    {$set:{rms:vowelRMS,recording:"not recording"}});
+  console.log("rms = "+allRMS);
+  console.log("vowel rms = "+vowelRMS);
   return theData.slice(Math.max(0,start-20000),Math.min(data.length,end+20000));
 
 }
@@ -274,6 +289,8 @@ function toggleRecording( e ) {
         audioRecorder.stop();
         e.classList.remove("recording");
         audioRecorder.getBuffers( gotBuffers );
+        const status = Recording.findOne();
+        Recording.update(status._id,{$set:{recording:"not recording"}});
     } else {
         // start recording
         if (!audioRecorder)
@@ -353,39 +370,62 @@ function toggleMono() {
 }
 
 function gotStream(stream) {
+  console.log("creating the audio nodes");
+  console.dir(stream);
+  console.dir(audioContext);
     inputPoint = audioContext.createGain();
 
     // Create an AudioNode from the stream.
     realAudioInput = audioContext.createMediaStreamSource(stream);
     audioInput = realAudioInput;
     audioInput.connect(inputPoint);
-
+    console.log("conecting audioInput to inputPoint")
 //    audioInput = convertToMono( input );
-
+    // connect an analyzer to the AudioInput
     analyserNode = audioContext.createAnalyser();
     analyserNode.fftSize = 2048;
     inputPoint.connect( analyserNode );
+    console.log("connecting analyzer to inputPoint")
 
+    console.log("creating recorder from inputpoint");
     audioRecorder = new Recorder( inputPoint );
 
     zeroGain = audioContext.createGain();
     zeroGain.gain.value = 0.0;
     inputPoint.connect( zeroGain );
     zeroGain.connect( audioContext.destination );
+    console.log("connecting zeroGain to destination")
     updateAnalysers();
 }
 
 function initAudio() {
         if (!navigator.getUserMedia)
-            navigator.getUserMedia = navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+            navigator.getUserMedia = (navigator.getUserMedia ||
+                                      navigator.webkitGetUserMedia ||
+                                      navigator.mozGetUserMedia ||
+                                      navigator.msGetUserMedia);
+
         if (!navigator.cancelAnimationFrame)
             navigator.cancelAnimationFrame = navigator.webkitCancelAnimationFrame || navigator.mozCancelAnimationFrame;
         if (!navigator.requestAnimationFrame)
             navigator.requestAnimationFrame = navigator.webkitRequestAnimationFrame || navigator.mozRequestAnimationFrame;
 
+    navigator.getUserMedia (
+               // constraints: audio and video for this app
+               {
+                  audio: true,
+                  video: true
+               },
+               // Success callback
+               gotStream, function(e) {
+                   alert('Error getting audio');
+                   console.log(e);
+               });
+/*
     navigator.getUserMedia(
         {
-            "audio": {
+
+          "audio": {
                 "mandatory": {
                     "googEchoCancellation": "false",
                     "googAutoGainControl": "false",
@@ -394,9 +434,16 @@ function initAudio() {
                 },
                 "optional": []
             },
+
+
         }, gotStream, function(e) {
             alert('Error getting audio');
             console.log(e);
         });
+
+        */
+
+
 }
+
 //window.addEventListener('load', initAudio );

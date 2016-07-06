@@ -1,5 +1,5 @@
 Meteor.startup(function(){
   Recording.remove({});
-  Recording.insert({recording:false});
+  Recording.insert({user:"test",recording:"not recording",success:false});
 
 })
