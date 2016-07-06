@@ -47,7 +47,8 @@ Template.apidemo.events({
     const dish = $(".js-dish").val();
     Meteor.apply("getRecipe",[ingr,dish],{returnStubValue: true},
       function(error,result){
-        console.dir(error);
+
+        console.dir(['getRecipe',error,result]);
         r = JSON.parse(result);
         console.dir(r);
         return instance.state.set("recipes",r.results);
