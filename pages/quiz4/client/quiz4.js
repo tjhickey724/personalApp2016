@@ -8,7 +8,7 @@ Template.showDonation.helpers({
 	picture: function(who){
 		switch(who) {
 		   case "Hillary": return "hillary.jpg"; break;
-			 case "Donald": return "donald.jpg"; break;
+			 case "Donald": return "trump.jpg"; break;
 		 }
 		 return "";
 	},
