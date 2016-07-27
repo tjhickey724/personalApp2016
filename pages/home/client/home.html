@@ -1,32 +1,6 @@
 <template name="home">
-<div class="{{theColor}}">
-  <button class="js-recipe">Get Recipe!</button><br>
-  ingredient to use: <input type="text" class="js-ingr"><br>
-  dish to make: <input type="text" class="js-dish"><br>
-
-  <ul>
-    {{#each r in recipes}}
-    <li>
-
-      <a href="{{r.href}}"><img src="{{r.thumbnail}}" width="100"></a>
-      <b>{{r.title}}:</b> {{r.ingredients}} <hr>
-    </li>
-    {{/each}}
-  </ul>
-  <h1>Brandeis CarPooling App</h1>
-  Welcome... please register and log in!
-  {{#if currentUser}}
-     Congratulations for getting logged in!
-  {{else}}
-     You better log in!!!
-  {{/if}}
-  <br>
-  <select class="js-color">
-    <option>bg-info</option>
-    <option>bg-warning</option>
-  </select>
-
-  Counter: {{theCounter}}<br>
-  <button class="js-pusher">Push me</button>
+<div class="jumbotron">
+  <h1>CS152aj</h1>
+  <p>Makeups for the quizzes</p>
 </div>
 </template>

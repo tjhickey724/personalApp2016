@@ -1,0 +1,58 @@
+<template name="quiz2">
+  <div class="jumbotron">
+
+  <h1>Political Donations</h1>
+  <p>Report your political donations</p>
+  </div>
+  {{#if currentUser}}
+  {{> donationForm}}
+
+<h1>Donations</h1>
+Sort by
+<select class="js-sort">
+  <option value="time">when</option>
+  <option value="amount">amount</option>
+  <!--
+  <option value="name">donor</option>
+  <option value="who">candidate</option>
+  -->
+
+</select>
+
+<table class="table table-bordered">
+  <thead>
+    <tr><th>Donor</th><th>For Whom</th><th>When</th><th>Amount</th><th>delete?</th></tr>
+  </thead>
+{{#each d in donations}}
+<tbody>
+{{> donationRow d=d}}
+</tbody>
+{{/each}}
+</table>
+  {{/if}}
+</template>
+
+<template name="donationRow">
+	 <tr>
+     <td>{{d.name}} </td>
+     <td>{{d.who}}</td>
+     <td>{{d.createdAt}} </td>
+     <td> {{d.amount}}</td>
+     <td>
+       <span class="js-delete-comment glyphicon glyphicon-remove" aria-hidden="true">
+       </span>
+     </td>
+   </tr>
+</template>
+
+<template name="donationForm">
+  <h1>Make a Donation</h1>
+  <select class="js-who">
+    <option>Hillary</option>
+    <option>Donald</option>
+  </select>
+  <br>
+  Your name: <input type="text" class="js-name"><br>
+  Amount: <input type="text" class="js-amount"><br>
+  <button class="js-share">Report Donation</button>
+</template>
